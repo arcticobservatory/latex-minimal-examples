@@ -1,0 +1,114 @@
+% Example of tweaking bibliography data with DeclareSourceMap
+%
+% This adjusts bibliography data as exported by an external bibliography
+% management program (in this case Zotero), so that it works neatly with the
+% Chicago Manual of Style reference format.
+%
+% It also replaces quotes in the title with the enquote macro from the csquotes
+% package, so that quotes will nest properly inside the quoted title.
+
+\begin{filecontents}{sources.bib}
+% A Tweet, as imported by Zotero
+@online{maciverThesisOnlyReason2018,
+  author = {MacIver, David R.},
+  date = {2018-02-05T05:49},
+  journaltitle = {@DRMacIver},
+  langid = {english},
+  title = {Thesis: The Only Reason {{Computer Science}} "Isn't a Science" Is Because the Parts of It That Are Science Are a Soft Science, and Maths/Engineering Type People Don't Want to Own up to That},
+  type = {Tweet},
+  url = {https://twitter.com/DRMacIver/status/960465314927452167},
+  urldate = {2019-02-15}
+}
+% On online newspaper article
+@article{leavittInnocentInternetDied2019,
+  author = {Leavitt, John},
+  date = {2019-01-07},
+  entrysubtype = {newspaper},
+  journalsubtitle = {Opinion // Outlook},
+  journaltitle = {Houston Chronicle},
+  langid = {english},
+  location = {{Houston, TX}},
+  title = {The ‘Innocent Internet’ Died and the 21st Century Was Born},
+  url = {https://www.houstonchronicle.com/opinion/outlook/article/The-innocent-internet-died-and-the-21st-13511503.php},
+  urldate = {2019-02-15}
+}
+\end{filecontents}
+
+
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage[strict=true]{csquotes}
+\MakeOuterQuote{"}          % Turn ascii-quoted strings into true quotes
+
+\usepackage[
+    backend=biber,
+    bibencoding=utf8,
+    style=chicago-authordate,
+    urldate=iso,        % Tweak date to avoid YMD/MDY confusion
+    sorting=nyt,        % Set sort order
+]{biblatex}
+
+\DeclareSourcemap{
+    \maps[datatype=bibtex]{
+        \map{
+            % Fix ISO dates that are missing their seconds value
+            % (Especially the minute-precision local time of tweets)
+            \step[
+                fieldsource=date,
+                match=\regexp{^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2})$},
+                replace=\regexp{$1:00},
+            ]
+        }
+        \map{
+            % Fix quotes in titles
+            % Note: Have to XML escape quotes because value is plugged into .bcf file, which is really XML
+            %
+            % Straighten quotes
+            \step[fieldsource=title, match=\regexp{[‘’‚]}, replace=\regexp{&apos;}]
+            \step[fieldsource=title, match=\regexp{[“”„]}, replace=\regexp{&quot;}]
+            % Replace matching quotes with enquote
+            \step[fieldsource=title, match=\regexp{&quot;([^&quot;]+)&quot;}, replace=\regexp{\\enquote{$1}}]
+            \step[fieldsource=title, match=\regexp{(\W)'([^']+)'(\W)}, replace=\regexp{$1\\enquote{$2}$3}]
+        }
+        \map{
+            % Tweak fields for online resources
+            \pertype{online}
+            % Copy the type field, which Zotero uses for subtype (tweet, blog post, etc.)
+            \step[fieldsource=type]
+            \step[fieldset=titleaddon, origfieldval]    % Puts after the title in many styles
+            \step[fieldset=keywords, origfieldval]      % Make it a keyword so we can select it
+            % Copy the journaltitle field, which Zotero uses for organization, username, blog title, etc.
+            \step[fieldsource=journaltitle]
+            \step[fieldset=organization, origfieldval]
+        }
+    }
+}
+
+\addbibresource{sources.bib}
+
+\usepackage[
+    hidelinks,          % Do not style links
+    %% PDF options:
+    pdfusetitle,        % Use doc title metadata for PDF title metadata
+    pdfdisplaydoctitle, % Display document title instead of filename in title bar
+    bookmarksnumbered,  % Use section numbers in PDF index
+    pdfpagemode={UseOutlines},  % Default view: show outline
+    pdfstartview={FitV},        % Default view: Fit height of page to PDF viewer window
+]{hyperref}
+
+\begin{document}
+
+\section{Some Quotes}
+
+\enquote{Thesis: the only reason Computer Science \enquote{isn't a science} is because the parts of it that are science are a soft science, and maths/engineering type people don't want to own up to that}
+--- David R. MacIver \parencite*{maciverThesisOnlyReason2018}
+
+\enquote{2014 marked the end of the innocent internet. It was the last time you could say “that’s just online, it doesn’t matter” and be taken seriously.}
+--- John Leavitt \parencite*{leavittInnocentInternetDied2019}
+
+\printbibliography[notkeyword=Tweet]
+\printbibliography[keyword=Tweet,title={Referenced Tweets}]
+
+\end{document}
