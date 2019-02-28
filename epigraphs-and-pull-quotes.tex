@@ -1,0 +1,33 @@
+\documentclass{article}
+
+\usepackage{epigraph}
+
+\begin{document}
+
+\section{With the epigraph package}
+
+\setlength{\epigraphwidth}{\dimexpr .7 \textwidth}
+
+\epigraph{Unless you're over 60, you weren't promised flying cars. You were promised
+  an oppressive cyberpunk dystopia. Here you go.}
+{Kyle Marquis}
+
+\section{With a custom macro}
+
+% Adapted from https://tex.stackexchange.com/a/35936
+\renewcommand{\epigraph}[2]{
+    \hfill\begin{minipage}{\dimexpr\textwidth-1cm}%
+    \begin{quotation}%
+        #1%
+    \end{quotation}%
+    \begin{flushright}%
+        --- #2%
+    \end{flushright}%
+    \end{minipage}%
+}
+
+\epigraph{Unless you're over 60, you weren't promised flying cars. You were promised
+  an oppressive cyberpunk dystopia. Here you go.}
+{Kyle Marquis}
+
+\end{document}
