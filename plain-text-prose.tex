@@ -1,0 +1,48 @@
+\begin{filecontents*}{abstract.txt}
+When submitting a paper to a database, you are often asked to copy the abstract into a plain text web form.
+
+If you've written your abstract in LaTeX, copying and pasting it is not always straightforward. The rendered text copied from the PDF will include fixed line breaks and word-continuing dashes, while the source text will have to escape characters like & or %.
+
+This example includes a "plaintextprose" environment, which changes all control characters (%, &, #, ^, _, ~, and $) to the "other" character category (catcode 13), so that they can be included with no escapes. Unlike verbatim, this does not change to typewriter font nor keep white space verbatim. It still treats the text as prose and paragraphs. This way, it can be easily copy-pasted from the source to the web, but still render nicely in the PDF.
+
+It does not de-fang the backslash, which is important if you want to input your abstract from another file. This means that you can use other \TeX{} commands if you line, though doing so will kind of defeat the purpose of using plain text.
+\end{filecontents*}
+
+\documentclass{article}
+
+% Render plain text quotes nicely without needing `` and ''
+\usepackage[strict=true]{csquotes}
+\MakeOuterQuote{"}          % Turn ascii-quoted strings into true quotes
+
+%======================================================================
+% Include plain text as content, but not verbatim
+%
+% This is useful for including content that might need to be reused elsewhere
+% outside of TeX, like an abstract that will need to be copied into forms.
+%
+% This environment changes all control characters (%, &, #, ^, _, ~, and $) to
+% the "other" character category (catcode 13), so that they can be included
+% with no escapes. Unlike verbatim, this does not change to typewriter font nor
+% keep white space verbatim. It still treats the text as prose and paragraphs.
+% This way, it can be easily copy-pasted from the source to the web, but still
+% render nicely in the PDF.
+%
+\newenvironment{plaintextprose}
+{%
+    \begingroup%
+        \catcode`\$=12%
+        \catcode`\&=12%
+        \catcode`\#=12%
+        \catcode`\^=12%
+        \catcode`\_=12%
+        \catcode`\~=12%
+        \catcode`\%=12}
+{\endgroup}
+
+\begin{document}
+
+    \begin{abstract}%
+        \begin{plaintextprose}\input{abstract.txt}\end{plaintextprose}%
+    \end{abstract}
+
+\end{document}
