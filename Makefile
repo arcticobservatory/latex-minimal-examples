@@ -22,3 +22,12 @@ biblatex-%.pdf: biblatex-%.tex
 # Generic LaTeX build process, simple
 %.pdf: %.tex
 	pdflatex $(PDFLATEX_OPTS) $<
+
+
+# Git log
+git-log.pdf: git-log.txt
+
+GIT_HEAD=$(shell git rev-parse --show-toplevel)/.git/logs/HEAD
+
+git-log.txt: $(GIT_HEAD)
+	git log --oneline --graph -n10 > git-log.txt

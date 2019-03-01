@@ -1,0 +1,37 @@
+\documentclass{article}
+
+\usepackage{ifdraft}
+\usepackage{listings}
+
+%======================================================================
+% Document history
+%
+% This creates a section that shows the recent Git history of the repository
+% this document resides in. The section is visible only if the "final" option
+% is not set.
+%
+% This requires that the build process dump the Git history to a file. The
+% following Makefile lines should do the trick:
+%
+%   git-log.pdf: git-log.txt
+%
+%   GIT_HEAD=$(shell git rev-parse --show-toplevel)/.git/logs/HEAD
+%
+%   git-log.txt: $(GIT_HEAD)
+%   	git log --oneline --graph -n10 > git-log.txt
+%
+\newcommand{\documenthistory}{%
+    %
+    \ifoptionfinal{%
+        % Do nothing
+    }{
+        \section*{Document History}
+        \lstinputlisting{git-log.txt}
+    }
+}
+
+\begin{document}
+
+    \documenthistory
+
+\end{document}
