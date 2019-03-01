@@ -1,4 +1,6 @@
-\documentclass{article}
+\documentclass[
+    %final
+]{article}
 \thispagestyle{empty}   % no page number for example
 
 \usepackage{ifdraft}
@@ -32,6 +34,11 @@
 }
 
 \begin{document}
+
+    \section{Document Text}
+
+    The \verb!\documenthistory! macro displays recent git history, as long as
+    the \verb!final! option is not set.
 
     \documenthistory
 

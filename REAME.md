@@ -10,7 +10,7 @@ So it made more sense to separate them out into
 simple examples that could be composed into new documents.
 
 List of Examples
-==================================================
+--------------------------------------------------
 
 ### Sanitizing .bib data
 
@@ -37,9 +37,10 @@ It shows the use of the epigraph package, and how to roll your own command.
 
 A macro that adds a git log section, as long as the document is not final.
 It requires a little help from the Makefile to dump the git log into a file,
-but it shows you how to do that and how to input the file.
+but it shows you how to do that.
 
 ![](previews/git-log.png)
+![](previews/git-log-final.png)
 
 ### Writing prose without having to escape %, &, etc.
 
@@ -59,3 +60,20 @@ Without the `final` option, the text will be greyed out, but left in the documen
 With the `final` option, it text will be excluded altogether.
 
 ![](previews/scratch-text-blocks.png)
+![](previews/scratch-text-blocks-final.png)
+
+
+Building the Examples
+--------------------------------------------------
+
+This build is controlled by Make. The main targets are `all` (the default) and `clean`.
+
+```bash
+# Default make
+make
+# Clean and remake
+make clean all
+```
+
+These examples may require various LaTeX packages.
+But they shouldn't need anything too exotic outside of a standard texlive installation.

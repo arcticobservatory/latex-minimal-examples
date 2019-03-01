@@ -4,9 +4,14 @@ ALL_TEX=$(wildcard *.tex)
 ALL_PDFS=$(addsuffix .pdf,$(basename $(ALL_TEX)))
 
 ALL_PNGS=$(addsuffix .png,$(basename $(ALL_TEX)))
-ALL_PREVIEWS=$(addprefix previews/,$(ALL_PNGS))
+NORMAL_PREVIEWS=$(addprefix previews/,$(ALL_PNGS))
 
-all: $(ALL_PDFS) $(ALL_PREVIEWS)
+FINAL_PREVIEWS=\
+    previews/git-log-final.png \
+    previews/scratch-text-blocks-final.png \
+
+
+all: $(ALL_PDFS) $(NORMAL_PREVIEWS) $(FINAL_PREVIEWS)
 
 clean:
 	# Remove all ignored files
@@ -58,3 +63,13 @@ git-log.txt: $(GIT_HEAD)
 previews/%.png: %.png
 	mkdir -p previews
 	cp $< $@
+
+
+# Create a final version by uncommenting the final option in the documentclass
+#
+# To use, put "%final" on its own line in the documentclass definition,
+# and then ask for whatever-final.tex (or pdf, or png).
+# Makes rule inference should take care of the rest.
+#
+%-final.tex: %.tex
+	sed 's/\%final/final/' $< > $@
