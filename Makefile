@@ -1,8 +1,5 @@
 .PHONY: clean all
 
-# Options to pass to pdflatex
-PDFLATEX_OPTS=-halt-on-error
-
 ALL_TEX=$(wildcard *.tex)
 ALL_PDFS=$(addsuffix .pdf,$(basename $(ALL_TEX)))
 
@@ -16,16 +13,19 @@ clean:
 	git clean -fX .
 
 
+# Options to pass to pdflatex
+PDFLATEXFLAGS=-halt-on-error
+
 # Generic LaTeX build process, simple
 %.pdf: %.tex
-	pdflatex $(PDFLATEX_OPTS) $<
+	pdflatex $(PDFLATEXFLAGS) $<
 
 # Generic LaTeX build process, with biblatex
 biblatex-%.pdf: biblatex-%.tex
-	pdflatex $(PDFLATEX_OPTS) $<
+	pdflatex $(PDFLATEXFLAGS) $<
 	biber $(basename $<)
-	pdflatex $(PDFLATEX_OPTS) $<
-	pdflatex $(PDFLATEX_OPTS) $<
+	pdflatex $(PDFLATEXFLAGS) $<
+	pdflatex $(PDFLATEXFLAGS) $<
 
 
 # Git log
@@ -42,6 +42,9 @@ git-log.txt: $(GIT_HEAD)
 # Note: We are deliberately discarding the date and time metadata from the PNGs
 # so that the output will be deterministic and easier to store in git.
 # See https://imagemagick.org/discourse-server/viewtopic.php?f=1&t=34782#p159822
+#
+# Page numbers will screw up the auto-cropping (-trim). To avoid page numbers,
+# be sure to include "\thispagestyle{empty}" after the documentclass
 #
 %.png: %.pdf
 	convert $< \
