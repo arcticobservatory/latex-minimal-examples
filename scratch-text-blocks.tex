@@ -1,0 +1,79 @@
+\documentclass[
+    %final
+]{article}
+
+\usepackage{ifdraft}
+\usepackage{verbatim}
+\usepackage{xcolor}
+
+%======================================================================
+% Scratch text
+%
+% This is an environment that greys out the text it contains, or if the final
+% option is set, it will discard the contents altogether.
+%
+% Useful for text that is in the process of being rewritten.
+%
+\newenvironment{scratch}[1][]%
+{%
+    \ifoptionfinal{%
+        \comment%               % discard contents
+    }{%
+        \begingroup%            % start a group
+        \color{black!030}%      % grey out text
+        \marginpar{%
+            % If the scratch environment is used inline in a paragraph, then
+            % then marginpar's color is not affected by the previous color
+            % statement. So to be safe, change it explicitly here as well.
+            \color{black!030}%
+            \small%
+            #1%
+        }%
+    }%
+}
+{%
+    \ifoptionfinal{%
+        \endcomment%
+    }{%
+        \endgroup%
+    }%
+}
+
+\begin{document}
+
+
+\section{Normal text}
+
+Here is some text that is part of the document.
+
+\begin{scratch}[An optional explanation can go here]
+This is long, multi-paragraph text that is slated to be deleted, but
+you want to keep it handy to mine for snippets and ideas.
+
+This grey text will all disappear if the \texttt{final} option is added to the
+document class.
+
+The text in the margin is an optional argument where you can leave a comment to
+explain why the text is deleted.
+\end{scratch}
+
+Here is some more text that will remain in the document.
+
+\begin{scratch}
+\section{A whole scratch section}
+It is possible to remove whole sections or pages,
+anything that will fit in an environment.
+\end{scratch}
+
+
+\section{Normal text after scratch environment}
+
+And here is some more text that is part of the document.
+
+
+It is also possible to
+put some scratch text
+\begin{scratch}[In-paragraph scratch text]such as this text here\end{scratch}
+right in the middle of a paragraph.
+
+\end{document}
