@@ -1,0 +1,31 @@
+\documentclass[
+    %final
+]{article}
+\thispagestyle{empty}   % no page number for example
+
+\usepackage[obeyFinal,colorinlistoftodos]{todonotes}
+
+\newcommand{\towrite}[1]{%
+    \todo[inline,color=white,bordercolor=white]{\textcolor{gray}{Write: #1}}%
+}
+
+\begin{document}
+
+\section{Normal Todos}
+
+Normal todo macros are relatively garish.
+\todo{This is a normal margin todo}.
+
+\todo[inline]{This is an inline todo}
+
+\section{To-write Todos}
+
+The macro in this example provides a custom todo command for paragraphs you still have to write.
+They will show up in the todo list, but will blend in better into the text.
+Useful for outlining.
+
+\towrite{Possibly add more explanation}
+
+\listoftodos
+
+\end{document}

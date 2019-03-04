@@ -72,6 +72,15 @@ With the `final` option, it text will be excluded altogether.
 ![](previews/scratch-text-blocks.png)
 ![](previews/scratch-text-blocks-final.png)
 
+### A to-write macro to mark text you want to expand on
+
+The macro in this example provides a custom todo command for paragraphs you still have to write.
+(Using the [todonotes](https://ctan.org/pkg/todonotes) package.)
+They will show up in the todo list, but will blend in better into the text.
+Useful for outlining.
+
+![](previews/towrite-macro.png)
+![](previews/towrite-macro-final.png)
 
 Building the Examples, an example Makefile
 --------------------------------------------------

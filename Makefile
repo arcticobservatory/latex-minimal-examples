@@ -9,6 +9,7 @@ NORMAL_PREVIEWS=$(addprefix previews/,$(ALL_PNGS))
 FINAL_PREVIEWS=\
     previews/git-log-final.png \
     previews/scratch-text-blocks-final.png \
+    previews/towrite-macro-final.png \
 
 
 all: $(ALL_PDFS) $(NORMAL_PREVIEWS) $(FINAL_PREVIEWS)
@@ -23,6 +24,7 @@ PDFLATEXFLAGS=-halt-on-error
 
 # Generic LaTeX build process, simple
 %.pdf: %.tex
+	pdflatex $(PDFLATEXFLAGS) $<
 	pdflatex $(PDFLATEXFLAGS) $<
 
 # Generic LaTeX build process, with biblatex
