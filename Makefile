@@ -38,17 +38,25 @@ biblatex-%.pdf: biblatex-%.tex
 # Git log
 # See the comments in git-log.tex for details
 
-# The git head reference file will be updated after every commit and checkout
-GIT_HEAD_REF=$(shell git rev-parse --show-toplevel)/.git/logs/HEAD
-
 # The documents in the GIT_LOG_DOCS variable will be used as both Make
 # dependencies and to limit the printed git history to only those files.
-GIT_LOG_DOCS=git-log.tex
+GIT_LOG_DOCS:=git-log.tex
 
+# The git head reference file will be updated after every commit and checkout
+GIT_HEAD_REF:=$(shell git rev-parse --show-toplevel)/.git/logs/HEAD
+
+# git-describe.txt will contain a description of the latest version that
+# touched GIT_LOG_DOCS, including tags
+GIT_LOG_DOCS_VERSION:=$(shell git log -1 --format="%h" -- $(GIT_LOG_DOCS))
+git-describe.txt: $(GIT_HEAD_REF)
+	git describe --tags 2>/dev/null $(GIT_LOG_DOCS_VERSION) \
+	    || echo "$(GIT_LOG_DOCS_VERSION)" > git-describe.txt
+
+# git-log.txt will contain a log of recent commits that affected GIT_LOG_DOCS
 git-log.txt: $(GIT_LOG_DOCS) $(GIT_HEAD_REF)
 	git log --oneline --graph -n10 -- $(GIT_LOG_DOCS) > git-log.txt
 
-git-log.pdf: git-log.txt
+git-log.pdf git-log-final.pdf: git-log.txt git-describe.txt
 
 
 # Convert PDF to PNG

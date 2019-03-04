@@ -48,8 +48,9 @@ and also how to roll your own command.
 
 [git-log.tex](git-log.tex)
 
-A macro that adds a Git log section, as long as the document is not `final`.
-It requires a little help from the Makefile to dump the git log into a file,
+This example includes Git information into the document, both as single git
+version (including tags) or as a section that includes recent git commits.
+It requires a little help from the Makefile to dump the git info into files,
 but the comments in the example and the
 [Makefile](Makefile) in this repository show you how to do that.
 
