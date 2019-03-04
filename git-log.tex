@@ -13,15 +13,39 @@
 % this document resides in. The section is visible only if the "final" option
 % is not set.
 %
-% This requires that the build process dump the Git history to a file. The
-% following Makefile lines should do the trick:
+% This requires that the build process dump the Git history to a file.
+% Use the following Make rules as a starting point.
+%
+%   # Git log
+%
+%   # The git head reference file will be updated after every commit and checkout
+%   GIT_HEAD_REF=$(shell git rev-parse --show-toplevel)/.git/logs/HEAD
+%
+%   # The documents in the GIT_LOG_DOCS variable will be used as both Make
+%   # dependencies and to limit the printed git history to only those files.
+%   GIT_LOG_DOCS=$(shell git ls-files -- :/)
+%
+%   git-log.txt: $(GIT_LOG_DOCS) $(GIT_HEAD_REF)
+%   	git log --oneline --graph -n10 -- $(GIT_LOG_DOCS) > git-log.txt
 %
 %   git-log.pdf: git-log.txt
 %
-%   GIT_HEAD=$(shell git rev-parse --show-toplevel)/.git/logs/HEAD
+% Note that including document history like this can be a huge headache if you
+% check your compiled artifacts into version control. It causes a cycle where a
+% commit causes a history update, which causes a rebuild, which creates an
+% updated file.
 %
-%   git-log.txt: $(GIT_HEAD)
-%   	git log --oneline --graph -n10 > git-log.txt
+% You can mitigate this risk by narrowing down the files whose history you want
+% to include in the log. Consider these alternative GIT_LOG_DOCS declarations:
+%
+%   # Include history of only select files
+%   GIT_LOG_DOCS=git-log.tex some-other-doc.tex
+%   # Include history of files by wildcard
+%   GIT_LOG_DOCS=$(wildcard *.tex)
+%   # Include history of current directory
+%   GIT_LOG_DOCS=$(shell git ls-files -- .)
+%   # Include history of entire repository
+%   GIT_LOG_DOCS=$(shell git ls-files -- :/)
 %
 \newcommand{\documenthistory}{%
     %
