@@ -36,7 +36,8 @@ It includes tweaks such as renaming fields, fixing timestamp format, and fixing 
 [epigraphs-and-pull-quotes.tex](epigraphs-and-pull-quotes.tex)
 
 A few examples of "epigraph" pull quotes to introduce chapters or sections.
-It shows the use of the epigraph package, and how to roll your own command.
+It shows the use of the [epigraph package](https://ctan.org/pkg/epigraph),
+and also how to roll your own command.
 
 ![](previews/epigraphs-and-pull-quotes.png)
 
@@ -67,7 +68,7 @@ Especially useful if you need to copy and paste an abstract into a web form when
 
 A macro that marks text (even large blocks) for deletion.
 Without the `final` option, the text will be greyed out, but left in the document.
-With the `final` option, it text will be excluded altogether.
+With the `final` option, the text will be excluded altogether.
 
 ![](previews/scratch-text-blocks.png)
 ![](previews/scratch-text-blocks-final.png)
@@ -85,7 +86,8 @@ Useful for outlining.
 Building the Examples, an example Makefile
 --------------------------------------------------
 
-This build is controlled by Make. The main targets are `all` (the default) and `clean`.
+This build is controlled by Make.
+The main targets are `all` (the default) and `clean`.
 
 ```bash
 # Default make
