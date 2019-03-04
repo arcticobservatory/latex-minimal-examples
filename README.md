@@ -18,6 +18,9 @@ copy-pasted and adapted into real documents as needed, without the bloat.
     See the [UNLICENSE](UNLICENSE) file
     and <https://unlicense.org/> for details.
 
+    The unlicense applies to the sample code and explanatory text written by us.
+    Passages of quoted text remain copyright of their respective authors.
+
 List of Examples
 --------------------------------------------------
 
