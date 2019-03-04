@@ -38,7 +38,18 @@ git-log.pdf: git-log.txt
 
 GIT_HEAD=$(shell git rev-parse --show-toplevel)/.git/logs/HEAD
 
-git-log.txt: $(GIT_HEAD)
+# This rule has been deliberately updated to rely on a change to the example
+# TeX file rather than the actual git log.
+# This is because this repository includes a preview PNG of the TeX ouput, and
+# it's hard to maintain a clean git history when every commit instantly causes
+# a change in one of the checked-in files.
+# This way it will only update if we also update the actual example.
+#
+# For more sensible repositories that don't check in the generated output,
+# remove the dependency on git-log.tex and uncomment $(GIT_HEAD)
+# (or whatever documents you want to actually trigger an update).
+#
+git-log.txt: git-log.tex # $(GIT_HEAD)
 	git log --oneline --graph -n10 > git-log.txt
 
 
