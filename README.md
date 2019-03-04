@@ -73,7 +73,7 @@ With the `final` option, the text will be excluded altogether.
 ![](previews/scratch-text-blocks.png)
 ![](previews/scratch-text-blocks-final.png)
 
-### A to-write macro to mark text you want to expand on
+### Marking "to-write" text
 
 The macro in this example provides a custom todo command for paragraphs you still have to write.
 (Using the [todonotes](https://ctan.org/pkg/todonotes) package.)
