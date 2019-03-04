@@ -1,13 +1,22 @@
-LaTeX Examples
+LaTeX Tricks and Examples
 ==================================================
 
 This is a repository of minimal working examples (MWEs) for several LaTeX
-tricks, as I pick them up and find them useful.
+tricks, as we pick them up and find them useful.
 
-Originally, many of these were lumped together in one template.
-But the template got very bloated, very fast.
-So it made more sense to separate them out into
-simple examples that could be composed into new documents.
+These examples grew out of a
+[LaTeX skeleton document](https://github.com/sleepymurph/template_latex_article)
+that tried to cram everything in.
+It got very bloated, very fast.
+So this repository was born to hold the minimum pieces so that they could be
+copy-pasted and adapted into real documents as needed, without the bloat.
+
+- Authors: Mike Murphy
+    and the Cyber-Physical Systems Research Group
+    at UiT The Arctic University of Norway
+- License: the Unlicense.
+    See the [UNLICENSE](UNLICENSE) file
+    and <https://unlicense.org/> for details.
 
 List of Examples
 --------------------------------------------------
