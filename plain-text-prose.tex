@@ -5,7 +5,7 @@ If you've written your abstract in LaTeX, copying and pasting it is not always s
 
 This example includes a "plaintextprose" environment, which changes all control characters (%, &, #, ^, _, ~, and $) to the "other" character category (catcode 13), so that they can be included with no escapes. Unlike verbatim, this does not change to typewriter font nor keep white space verbatim. It still treats the text as prose and paragraphs. This way, it can be easily copy-pasted from the source to the web, but still render nicely in the PDF.
 
-It does not de-fang the backslash, which is important if you want to input your abstract from another file. This means that you can use other \TeX{} commands if you line, though doing so will kind of defeat the purpose of using plain text.
+It does not de-fang the backslash, which is important if you want to input your abstract from another file. This means that you can use other \TeX{} commands if you like, though doing so will kind of defeat the purpose of using plain text.
 \end{filecontents*}
 
 \documentclass{article}
