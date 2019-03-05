@@ -81,6 +81,8 @@ With the `final` option, the text will be excluded altogether.
 
 ### Marking "to-write" text
 
+[towrite-macro.tex](towrite-macro.tex)
+
 The macro in this example provides a custom todo command for paragraphs you still have to write.
 (Using the [todonotes](https://ctan.org/pkg/todonotes) package.)
 They will show up in the todo list, but will blend in better into the text.
