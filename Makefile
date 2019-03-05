@@ -35,8 +35,21 @@ biblatex-%.pdf: biblatex-%.tex
 	pdflatex $(PDFLATEXFLAGS) $<
 
 
+# Final (create a version with 'final' enabled by adding '-final' to filename)
+#
+# In the document, put "%final" on its own line in the documentclass
+# definition. Then ask Make for the filename with '-final' on the end:
+# whatever-final.tex, whatever-final.pdf, etc.
+#
+# Make's rule inference should take care of the rest.
+#
+%-final.tex: %.tex
+	sed 's/\%final/final/' $< > $@
+
+
 # Git log
-# See the comments in git-log.tex for details
+#
+# See comments in git-log.tex for details
 
 # The documents in the GIT_LOG_DOCS variable will be used as both Make
 # dependencies and to limit the printed git history to only those files.
@@ -80,13 +93,3 @@ git-log.pdf git-log-final.pdf: git-log.txt git-describe.txt
 previews/%.png: %.png
 	mkdir -p previews
 	cp $< $@
-
-
-# Create a final version by uncommenting the final option in the documentclass
-#
-# To use, put "%final" on its own line in the documentclass definition,
-# and then ask for whatever-final.tex (or pdf, or png).
-# Makes rule inference should take care of the rest.
-#
-%-final.tex: %.tex
-	sed 's/\%final/final/' $< > $@
