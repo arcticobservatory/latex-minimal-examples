@@ -1,18 +1,46 @@
-.PHONY: clean all
+# Makefile for LaTeX examples
 
-ALL_TEX=$(wildcard *.tex)
+# This Makefile leans heavily on rule inference
+#
+# There are rules to make PDF from TEX, PNG from PDF, and final TEX from TEX.
+# The rules combine so that for any x.tex file in this directory, you can make
+# x.pdf, x.png, x-final.tex, x-final.pdf, and x-final.png, just by requesting
+# them.
+#
+# To get previewx/x.png:
+#   x.tex -> x.pdf -> x.png -> preview/x.png
+#
+# To get to previews x-final.png:
+#   x.tex -> x-final.tex -> x-final.pdf -> x-final.png -> previews/x-final.png
+#
+# To make PDFs and PNG previews for all .tex files in the directory, we use a
+# wildcard to put a list of all .tex files in the ALL_TEX variable, then do
+# simple substitution to get the ALL_PDFS (*.pdf), ALL_PNGS (*.png), and
+# PREVIEWS (preview/*.png).
+#
+# A few of the examples have different behavior in final mode, so to make sure
+# those are built too, we add '-final' versions of their names manually to the
+# ALL_TEX variable. From there, the substitutions make sure they are also
+# included in ALL_PDFS, ALL_PNGS, and ALL_PREVIEWS as well.
+#
+# Finally, the 'all' target depends on building the wildcard-derived lists of
+# PDFs (ALL_PDFS) and previews (PREVIEWS), so it builds everything.
+#
+
+ALL_TEX=$(wildcard *.tex) \
+	git-log-final.tex \
+	scratch-text-blocks-final.tex \
+	towrite-macro-final.tex \
+
 ALL_PDFS=$(addsuffix .pdf,$(basename $(ALL_TEX)))
 
 ALL_PNGS=$(addsuffix .png,$(basename $(ALL_TEX)))
-NORMAL_PREVIEWS=$(addprefix previews/,$(ALL_PNGS))
-
-FINAL_PREVIEWS=\
-    previews/git-log-final.png \
-    previews/scratch-text-blocks-final.png \
-    previews/towrite-macro-final.png \
+PREVIEWS=$(addprefix previews/,$(ALL_PNGS))
 
 
-all: $(ALL_PDFS) $(NORMAL_PREVIEWS) $(FINAL_PREVIEWS)
+.PHONY: clean all
+
+all: $(ALL_PDFS) $(PREVIEWS)
 
 clean:
 	# Remove all ignored files
@@ -39,7 +67,7 @@ biblatex-%.pdf: biblatex-%.tex
 #
 # In the document, put "%final" on its own line in the documentclass
 # definition. Then ask Make for the filename with '-final' on the end:
-# whatever-final.tex, whatever-final.pdf, etc.
+# x-final.tex, x-final.pdf, etc.
 #
 # Make's rule inference should take care of the rest.
 #
@@ -49,26 +77,25 @@ biblatex-%.pdf: biblatex-%.tex
 
 # Git log
 #
-# See comments in git-log.tex for details
 
-# The documents in the GIT_LOG_DOCS variable will be used as both Make
-# dependencies and to limit the printed git history to only those files.
+# Include history of only select files
 GIT_LOG_DOCS:=git-log.tex
 
-# The git head reference file will be updated after every commit and checkout
+# The git head reference file: updated after every commit and checkout
 GIT_HEAD_REF:=$(shell git rev-parse --show-toplevel)/.git/logs/HEAD
 
-# git-describe.txt will contain a description of the latest version that
-# touched GIT_LOG_DOCS, including tags
+# Get the latext version that affects GIT_LOG_DOCS, and dump the version
+# (tag+hash via git-describe or just the hash) to a file
 GIT_LOG_DOCS_VERSION:=$(shell git log -1 --format="%h" -- $(GIT_LOG_DOCS))
 git-describe.txt: $(GIT_HEAD_REF)
 	git describe --tags 2>/dev/null $(GIT_LOG_DOCS_VERSION) \
 	    || echo "$(GIT_LOG_DOCS_VERSION)" > git-describe.txt
 
-# git-log.txt will contain a log of recent commits that affected GIT_LOG_DOCS
+# Get a log of recent history and dump it to a file
 git-log.txt: $(GIT_LOG_DOCS) $(GIT_HEAD_REF)
 	git log --oneline --graph -n10 -- $(GIT_LOG_DOCS) > git-log.txt
 
+# Add these git files to the dependency lists of the PDFs that include them
 git-log.pdf git-log-final.pdf: git-log.txt git-describe.txt
 
 
