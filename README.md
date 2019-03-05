@@ -54,8 +54,9 @@ It requires a little help from the Makefile to dump the git info into files,
 but the comments in the example and the
 [Makefile](Makefile) in this repository show you how to do that.
 
-![](previews/git-log.png)
-![](previews/git-log-final.png)
+| normal                    | `final`                         |
+|---------------------------|---------------------------------|
+| ![](previews/git-log.png) | ![](previews/git-log-final.png) |
 
 ### Writing prose without having to escape %, &, etc.
 
@@ -74,8 +75,9 @@ A macro that marks text (even large blocks) for deletion.
 Without the `final` option, the text will be greyed out, but left in the document.
 With the `final` option, the text will be excluded altogether.
 
-![](previews/scratch-text-blocks.png)
-![](previews/scratch-text-blocks-final.png)
+| normal                                | `final`                                     |
+|---------------------------------------|---------------------------------------------|
+| ![](previews/scratch-text-blocks.png) | ![](previews/scratch-text-blocks-final.png) |
 
 ### Marking "to-write" text
 
@@ -84,8 +86,9 @@ The macro in this example provides a custom todo command for paragraphs you stil
 They will show up in the todo list, but will blend in better into the text.
 Useful for outlining.
 
-![](previews/towrite-macro.png)
-![](previews/towrite-macro-final.png)
+| normal                          | `final`                               |
+|---------------------------------|---------------------------------------|
+| ![](previews/towrite-macro.png) | ![](previews/towrite-macro-final.png) |
 
 Building the Examples, an example Makefile
 --------------------------------------------------
