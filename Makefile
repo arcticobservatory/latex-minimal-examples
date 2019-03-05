@@ -7,10 +7,10 @@
 # x.pdf, x.png, x-final.tex, x-final.pdf, and x-final.png, just by requesting
 # them.
 #
-# To get previewx/x.png:
-#   x.tex -> x.pdf -> x.png -> preview/x.png
+# To get previews/x.png:
+#   x.tex -> x.pdf -> x.png -> previews/x.png
 #
-# To get to previews x-final.png:
+# To get to previews/x-final.png:
 #   x.tex -> x-final.tex -> x-final.pdf -> x-final.png -> previews/x-final.png
 #
 # To make PDFs and PNG previews for all .tex files in the directory, we use a
@@ -19,8 +19,8 @@
 # PREVIEWS (preview/*.png).
 #
 # A few of the examples have different behavior in final mode, so to make sure
-# those are built too, we add '-final' versions of their names manually to the
-# ALL_TEX variable. From there, the substitutions make sure they are also
+# those are built too, we add '-final.tex' versions of their names manually to
+# the ALL_TEX variable. From there, the substitutions make sure they are also
 # included in ALL_PDFS, ALL_PNGS, and ALL_PREVIEWS as well.
 #
 # Finally, the 'all' target depends on building the wildcard-derived lists of
@@ -63,7 +63,7 @@ biblatex-%.pdf: biblatex-%.tex
 	pdflatex $(PDFLATEXFLAGS) $<
 
 
-# Final (create a version with 'final' enabled by adding '-final' to filename)
+# Final: create a version with 'final' enabled by adding '-final' to filename
 #
 # In the document, put "%final" on its own line in the documentclass
 # definition. Then ask Make for the filename with '-final' on the end:
