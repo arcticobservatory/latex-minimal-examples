@@ -1,0 +1,32 @@
+% Note: we cannot use the filecontents macro to include the Markdown snippet
+% here because of the order needed process files in Make.
+%
+% See markdown-snippet.md for the Markdown content.
+
+\documentclass[
+    %final
+]{article}
+\thispagestyle{empty}   % no page number for example
+
+%--------------------------------------------------
+% Macros normally defined by Pandoc
+%   for snippets converted from Markdown
+%
+% See: /usr/share/pandoc/data/templates/default.latex
+%
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\begin{document}
+
+\section{Text written in \LaTeX}
+
+This text was written as normal in the \LaTeX{} document.
+
+% The Markdown content is in markdown-snippet.md,
+% which is converted to markdown-snippet.md.tex by Pandoc via Make.
+% See markdown-snippet.md and the Makefile.
+\input{markdown-snippet.md.tex}
+
+\end{document}

@@ -58,6 +58,18 @@ but the comments in the example and the
 |---------------------------|---------------------------------|
 | ![](previews/git-log.png) | ![](previews/git-log-final.png) |
 
+### Including snippets written in Markdown (with Pandoc)
+
+[markdown-snippets-with-pandoc.tex](markdown-snippets-with-pandoc.tex)
+(which includes [markdown-snippet.md](markdown-snippet.md))
+
+This example writes part of the document in a separate Markdown file,
+which is then converted to LaTeX by Pandoc and included into the main document.
+This is especially useful for nested lists, such as outlines,
+since it's more intuitive to write lists in Markdown.
+
+![](previews/markdown-snippets-with-pandoc.png)
+
 ### Writing prose without having to escape %, &, etc.
 
 [plain-text-prose.tex](plain-text-prose.tex)

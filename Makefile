@@ -13,10 +13,9 @@
 # To get to previews/x-final.png:
 #   x.tex -> x-final.tex -> x-final.pdf -> x-final.png -> previews/x-final.png
 #
-# To make PDFs and PNG previews for all .tex files in the directory, we use a
-# wildcard to put a list of all .tex files in the ALL_TEX variable, then do
-# simple substitution to get the ALL_PDFS (*.pdf), ALL_PNGS (*.png), and
-# PREVIEWS (preview/*.png).
+# To make PDFs and PNG previews for all .tex files in the directory, put a list
+# of all .tex files in the ALL_TEX variable, then do simple substitution to get
+# the ALL_PDFS (*.pdf), ALL_PNGS (*.png), and PREVIEWS (preview/*.png).
 #
 # A few of the examples have different behavior in final mode, so to make sure
 # those are built too, we add '-final.tex' versions of their names manually to
@@ -27,10 +26,17 @@
 # PDFs (ALL_PDFS) and previews (PREVIEWS), so it builds everything.
 #
 
-ALL_TEX=$(wildcard *.tex) \
+ALL_TEX=\
+	biblatex-transforms-declaresourcemap.tex \
+	epigraphs-and-pull-quotes.tex \
+	git-log.tex \
 	git-log-final.tex \
+	markdown-snippets-with-pandoc.tex \
+	plain-text-prose.tex \
+	scratch-text-blocks.tex \
 	scratch-text-blocks-final.tex \
 	towrite-macro-final.tex \
+	towrite-macro.tex \
 
 ALL_PDFS=$(addsuffix .pdf,$(basename $(ALL_TEX)))
 
@@ -97,6 +103,15 @@ git-log.txt: $(GIT_LOG_DOCS) $(GIT_HEAD_REF)
 
 # Add these git files to the dependency lists of the PDFs that include them
 git-log.pdf git-log-final.pdf: git-log.txt git-describe.txt
+
+
+# Markdown snippets
+#
+%.md.tex: %.md
+	pandoc $< -o $@
+
+# Add specific .md.tex files as dependencies for PDFs that include them
+markdown-snippets-with-pandoc.pdf: markdown-snippet.md.tex
 
 
 # Convert PDF to PNG
