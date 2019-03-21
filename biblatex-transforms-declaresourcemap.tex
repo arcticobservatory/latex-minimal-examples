@@ -31,6 +31,17 @@
   title = {The ‘Innocent Internet’ Died and the 21st Century Was Born},
   url = {https://www.houstonchronicle.com/opinion/outlook/article/The-innocent-internet-died-and-the-21st-13511503.php},
   urldate = {2019-02-15}
+},
+% An article with a second URL in the note field that has escapes added by Zotero
+@online{lundEuropeanEffortPromote2018,
+  author = {Lund, Christian},
+  date = {2018-09-04},
+  journaltitle = {The Research Council of Norway (Forskningsrådet)},
+  note = {På norsk: https://www.forskningsradet.no/no/Nyheter/Europeisk\_offensiv\_for\_apen\_tilgang\_til\_forskning/1254036638687/p1174467583739},
+  title = {European Effort to Promote Open Access to Research},
+  translator = {McKelleep, Darren and Echmann, Carol B.},
+  url = {https://www.forskningsradet.no/en/Newsarticle/European_effort_to_promote_open_access_to_research/1254036686706?lang=en},
+  urldate = {2019-03-21}
 }
 \end{filecontents}
 
@@ -84,6 +95,12 @@
             \step[fieldsource=journaltitle]
             \step[fieldset=organization, origfieldval]
         }
+        \map{
+            % Wrap URLs in note field in \url command
+            \step[fieldsource=note, match=\regexp{(https?://\S+)}, replace=\regexp{\\url{$1}}]
+            % Remove escapes from underscores
+            \step[fieldsource=note, match=\regexp{\\_}, replace=\regexp{_}]
+        }
     }
 }
 
@@ -108,6 +125,9 @@
 
 \enquote{2014 marked the end of the innocent internet. It was the last time you could say “that’s just online, it doesn’t matter” and be taken seriously.}
 --- John Leavitt \parencite*{leavittInnocentInternetDied2019}
+
+\enquote{Currently, research, which is predominantly carried out by publicly funded institutions, is published in journals owned by a few large international publishers.}
+\parencite{lundEuropeanEffortPromote2018}
 
 \printbibliography[notkeyword=Tweet]
 \printbibliography[keyword=Tweet,title={Referenced Tweets}]
